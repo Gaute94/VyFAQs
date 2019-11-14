@@ -1,0 +1,105 @@
+
+
+
+
+<!--<div>
+    <div class="col-md-6 col-md-offset-1" *ngIf="visKundeListe">
+        <div *ngIf="laster">Laster kunder.....</div>
+        <table class="table table-bordered table-condensed" *ngFor="let question of alleKunder">
+            
+          <tr>
+            <th>{{question.newQuestion}}</th>
+          </tr>
+          <tr>
+            <td>{{question.answer}}</td>-->
+            <!--<td><button class="btn btn-danger" (click)="sletteKunde(kunde.id)">Slett</button></td>
+            <td><button class="btn btn-success" (click)="endreKunde(kunde.id)">Endre</button></td>-->
+          <!--</tr>
+        </table>
+        <button class='btn btn-primary' (click)='registrerKunde()'>Register kunde</button>
+    </div>
+</div>-->
+
+
+<div class="top-menu" style="height:70px;">
+  <h1 style="margin-left:40px; display:inline-block">VY - FAQs</h1>
+</div>
+
+<div *ngIf="visKundeListe" class="questionList">
+  
+    
+  <div id="accordion">
+    <div class="card" *ngFor="let question of alleKunder">
+     
+        <div style="padding-left:0px !important;">
+          <div class="card-header" id="{{question.id}}" style="border-top:1px solid black; ">
+            <div style="display:inline-block; float:left; padding-top:20px; width:100px; padding-left:10px">
+              <button style="width:30px; background-color:white; border:none;" (click)="upvoteQuestion(question.id)">
+                <i class="fa fa-thumbs-up upvote-button" style="display:inline-block;"></i>
+              </button>
+              <div style="display:inline-block;" id="votes{{question.id}}">{{question.votes}}</div>
+              <button style="width:30px; background-color:white; border:none" (click)="downvoteQuestion(question.id)">
+                <i class="fa fa-thumbs-down downvote-button" style="display:inline-block"></i>
+              </button>
+            </div>
+            <h5 class="mb-0">
+              <button class="font-weight-bold question" data-toggle="collapse" [attr.data-target]="'#collapse' + question.id" aria-expanded="false" [attr.aria-controls]="'collapse' + question.id">
+
+                <span style="font-weight:bold">{{question.newQuestion}}</span>
+                <i class="fa fa-chevron-down" style="float:right;"></i>
+              </button>
+            </h5>
+          </div>
+
+          <div id="collapse{{question.id}}" class="collapse" [attr.aria-labelledby]="question.id" data-parent="#accordion">
+            <div class="card-body" style="line-height:1.5; font-size:14pt; padding-left:10px; padding-right:40px; padding-bottom:15px;">
+              {{question.answer}}
+              <!--<button class="btn btn-danger" (click)="sletteKunde(question.id)">Slett</button>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class='btn btn-primary' (click)='registrerKunde()'>Nytt spørsmål</button>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+<div class="col-sm-4 col-sm-offset-4 text-center" style="margin-top:70px;" *ngIf="visSkjema">
+    <form [formGroup]="skjema" (ngSubmit)="vedSubmit()">
+        <input class="form-control" formControlName="id" type="hidden" />
+        <div class="form-group">
+          <label style="font-size:16pt;">Nytt spørsmål</label>
+          <textarea rows="6" class="form-control" formControlName="newQuestion" style="height:180px;"></textarea>
+
+          <!--<input class="form-control" formControlName="newQuestion" />-->
+          <p class="alert alert-warning" [hidden]="skjema.controls.newQuestion.valid || (skjema.controls.newQuestion.pristine && !submitted)">
+            Du må skrive et spørsmål
+          </p>
+        </div>
+        <div class="form-group">
+            <label style="font-size:16pt;">Svar</label>
+            <textarea rows="6" class="form-control" formControlName="answer" style="height:180px;"></textarea>
+            <!--<input class="form-control" formControlName="answer" />-->
+            <p class="alert alert-warning" [hidden]="skjema.controls.answer.valid || (skjema.controls.answer.pristine && !submitted)">
+                Du må skrive et svar
+            </p>
+        </div>
+
+
+        <div class="form-group">
+          <button type="submit" *ngIf="skjemaStatus=='Endre'" [disabled]="!skjema.valid" class="btn btn-primary">Endre</button>
+          <button class="btn btn-default" style="float:left;" (click)="tilbakeTilListe()">Tilbake</button>
+          <button type="submit" style="float:right;" *ngIf="skjemaStatus=='Registrere'" [disabled]="!skjema.valid" class="btn btn-primary">Registrer</button>
+        </div>
+    </form>
+</div>
+
